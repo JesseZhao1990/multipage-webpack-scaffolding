@@ -17,7 +17,7 @@ module.exports = {
       ref  : 'origin/dev',
       repo : '',
       path : '/root/dev/',
-      // 'post-deploy' : 'npm install && npm run build:dev'
+      'post-deploy' : 'npm install && npm run build'
     },
     test : {
       user : 'root',
@@ -25,7 +25,7 @@ module.exports = {
       ref  : 'origin/master',
       repo : '',
       path : '/root/test/',
-      // 'post-deploy' : 'npm install && npm run build:test'
+      'post-deploy' : 'npm install && npm run build'
     },
   }
 };

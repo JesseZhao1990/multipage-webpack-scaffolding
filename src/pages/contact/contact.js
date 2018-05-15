@@ -1,3 +1,3 @@
 /* eslint-disable */
-import './contact.less';
+import './contact.css';
 console.log('22222');

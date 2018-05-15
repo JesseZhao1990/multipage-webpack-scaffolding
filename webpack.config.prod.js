@@ -70,7 +70,10 @@ let webpackConfig = {
       },
       {
         test: /\.css$/,
-        use: ["style-loader", "css-loader"]
+        use: ExtractTextPlugin.extract({
+          fallback: 'style-loader',
+          use: ['css-loader'],
+        }),
       },      
       {
         test: /\.less$/,
@@ -82,7 +85,10 @@ let webpackConfig = {
     ]
   },
   plugins:[
-    new UglifyJsPlugin(),
+    new UglifyJsPlugin({
+      sourceMap:true,
+      parallel: true
+    }),
     new ExtractTextPlugin({
      filename: 'static/css/[name].[hash:7].css'
     }),
