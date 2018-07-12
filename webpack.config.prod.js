@@ -8,7 +8,7 @@ const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const pageConfig = require('./page.config.js');
 
 let webpackConfig = {
-  mode: 'none',
+  mode: 'production',
   // 配置入口  
   entry: {},
   devtool: "source-map",
@@ -101,7 +101,34 @@ let webpackConfig = {
           dry: false     //启用删除文件  
       }  
     ),
-  ] 
+  ],
+  optimization:{
+    splitChunks: {
+      chunks: "all",
+      minSize: 30000,
+      minChunks: 1,
+      maxAsyncRequests: 5,
+      maxInitialRequests: 3,
+      automaticNameDelimiter: '~',
+      name: true,
+      cacheGroups: {
+          vendors: {
+              test: /[\\/]node_modules[\\/]/,
+              priority: -10
+          },
+          // default: {
+          //     minChunks: 2,
+          //     priority: -20,
+          //     reuseExistingChunk: true
+          // },
+          commons: {
+            name: "commons",
+            chunks: "initial",
+            minChunks: 2
+          }
+      }
+    }
+  }
 };
 
 if(pageConfig && Array.isArray(pageConfig)){
