@@ -7,6 +7,30 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const pageConfig = require('./page.config.js');
 
+class ChunksFromEntryPlugin {
+  apply (compiler) {
+      compiler.hooks.emit.tap('ChunksFromEntryPlugin', compilation => {
+          compilation.hooks.htmlWebpackPluginAlterChunks.tap(
+              'ChunksFromEntryPlugin',
+              (_, { plugin }) => {
+                  // takes entry name passed via HTMLWebpackPlugin's options
+                  const entry = plugin.options.entry;
+                  const entrypoint = compilation.entrypoints.get(entry);
+
+                  return entrypoint.chunks.map(chunk =>
+                      ({
+                          names: chunk.name ? [chunk.name] : [],
+                          files: chunk.files.slice(),
+                          size: chunk.modulesSize(),
+                          hash: chunk.hash
+                      })
+                  );
+              }
+          );
+      });
+  }
+}
+
 let webpackConfig = {
   mode: 'production',
   // 配置入口  
@@ -101,6 +125,7 @@ let webpackConfig = {
           dry: false     //启用删除文件  
       }  
     ),
+    new ChunksFromEntryPlugin(),
   ],
   optimization:{
     splitChunks: {
@@ -138,6 +163,7 @@ if(pageConfig && Array.isArray(pageConfig)){
       filename: path.join(__dirname,`/dist/${page.name}.html`),
       template: path.join(__dirname,`/src/pages/${page.html}`),
       inject: true,
+      entry: page.name,
       chunks: [page.name],  
       inlineSource: '.(js|css)$',
       minify: {
