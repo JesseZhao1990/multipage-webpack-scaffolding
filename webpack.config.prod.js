@@ -60,6 +60,8 @@ let webpackConfig = {
         include: [path.join(__dirname, "./src")],
         options: {
           limit: 10000,
+          // min:false,
+          min:true,
           name: 'static/img/[name].[hash:7].[ext]'
         }
       },
@@ -166,6 +168,7 @@ if(pageConfig && Array.isArray(pageConfig)){
       entry: page.name,
       chunks: [page.name],  
       inlineSource: '.(js|css)$',
+      // minify:false,
       minify: {
         removeComments: true,
         collapseWhitespace: true,
