@@ -14,7 +14,9 @@
   "author": "215696013@qq.com",
   "license": "MIT",
   "dependencies": {
-    "normalize.css": "^8.0.0"
+    "node-sass": "^4.9.2",
+    "normalize.css": "^8.0.0",
+    "sass-loader": "^7.1.0"
   },
   "devDependencies": {
     "babel-core": "^6.26.3",
@@ -40,8 +42,6 @@
     "html-loader": "^0.5.5",
     "html-webpack-plugin": "^3.2.0",
     "html-withimg-loader": "^0.1.16",
-    "less": "^3.0.4",
-    "less-loader": "^4.1.0",
     "style-loader": "^0.21.0",
     "uglifyjs-webpack-plugin": "^1.2.5",
     "url-loader": "^1.0.1",

@@ -1,5 +1,5 @@
 /* eslint-disable */
-import '../../common/css/com.less';
+import '../../common/css/com.sass';
 import './contact.css';
 import {throttle} from '../../tools/utils';
 console.log(throttle);

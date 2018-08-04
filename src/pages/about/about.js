@@ -1,5 +1,5 @@
 /* eslint-disable */
-import './about.less';
+import './about.sass';
 console.log('11111');
 
 import imgUrl from '../../images/cat.jpeg';

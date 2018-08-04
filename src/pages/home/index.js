@@ -1,6 +1,6 @@
 /* eslint-disable */
-import '../../common/css/com.less';
-import './index.less';
+import '../../common/css/com.sass';
+import './index.scss';
 import {throttle} from '../../tools/utils';
 console.log(throttle);
 
