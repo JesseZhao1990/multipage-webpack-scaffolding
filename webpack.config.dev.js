@@ -68,24 +68,22 @@ let webpackConfig = {
       },
       {
         test: /\.css$/,
-        use: ExtractTextPlugin.extract({
-          fallback: 'style-loader',
-          use: ['css-loader'],
-        }),
+        use: [
+          'style-loader',
+          'css-loader',
+        ],
       },      
       {
         test: /\.less$/,
-        use: ExtractTextPlugin.extract({
-          fallback: 'style-loader',
-          use: ['css-loader', 'less-loader'],
-        }),
+        use: [
+          'style-loader',
+          'css-loader',
+          'less-loader'
+        ],
       },
     ]
   },
   plugins:[
-    new ExtractTextPlugin({
-     filename: 'static/css/[name].[hash:7].css'
-    }),
     //设置每一次build之前先删除dist  
     new CleanWebpackPlugin(  
       ['dist/*',],　     //匹配删除的文件  
