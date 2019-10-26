@@ -101,6 +101,9 @@ let webpackConfig = {
     inline: true,  
     hot: true,  
     host: '127.0.0.1',
+    before(_, server) {
+      server._watch(__dirname + '/src/pages')
+    }
   }  
 };
 
