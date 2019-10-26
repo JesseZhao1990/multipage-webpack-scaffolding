@@ -1,4 +1,5 @@
 /* eslint-disable */
+import "@babel/polyfill";
 import './about.less';
 console.log('11111');
 

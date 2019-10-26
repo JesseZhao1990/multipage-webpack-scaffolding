@@ -14,5 +14,10 @@ module.exports = [
     name: 'contact',
     html: 'contact/contact.html',
     jsEntry: 'contact/contact.js'
+  },
+  {
+    name: 'polyfill',
+    html: 'polyfill/polyfill.html',
+    jsEntry: 'polyfill/polyfill.js'
   }
 ]
