@@ -3,7 +3,7 @@ const pageConfig = require('./page.config.js');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
 
-exports.genHtmlWebpackPlugins = (webpackConfig, options = {}) => {
+exports.pushHtmlWebpackPlugins = (webpackConfig, options = {}) => {
     if (pageConfig && Array.isArray(pageConfig)) {
         pageConfig.map(page => {
             webpackConfig.entry[page.name] = `./src/pages/${page.jsEntry}`;

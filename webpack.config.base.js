@@ -121,18 +121,7 @@ let webpackConfig = {
 				dry: false     //启用删除文件  
 			}
 		)
-	],
-	// 起本地服务
-	devServer: {
-		contentBase: './dist/',
-		historyApiFallback: true,
-		inline: true,
-		hot: true,
-		host: '127.0.0.1',
-		before(_, server) {
-			server._watch(__dirname + '/src/pages')
-		}
-	}
+	]
 };
 
 module.exports = webpackConfig;

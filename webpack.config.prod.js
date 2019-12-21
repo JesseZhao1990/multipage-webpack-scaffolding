@@ -70,7 +70,7 @@ let prodWebpackConfig = {
   }
 }
 
-prodWebpackConfig = utils.genHtmlWebpackPlugins(
+prodWebpackConfig = utils.pushHtmlWebpackPlugins(
   merge(webpackBaseConfig, prodWebpackConfig), {
   // html-webpack-plugin options
   minify: {
