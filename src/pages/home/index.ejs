@@ -7,6 +7,10 @@
   <title>Document</title>
 </head>
 <body>
+  <!-- 不转义 -->
+  <%= require('./header.ejs')({  title: 'title', desc: 'desc' }) %>
+  <!-- 转义 -->
+  <%- require('./header.ejs')({  title: 'title', desc: 'desc' }) %>
   这里是主页，
   <a href="./about.html">关于我们</a>
   <div class="test">css测试</div>
