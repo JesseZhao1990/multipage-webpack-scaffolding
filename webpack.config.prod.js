@@ -1,5 +1,5 @@
 /* eslint-disable */
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const webpackBaseConfig = require('./webpack.config.base');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const merge = require('webpack-merge');
@@ -37,7 +37,7 @@ let prodWebpackConfig = {
       sourceMap: true,
       parallel: true
     }),
-    new ExtractTextPlugin({
+    new MiniCssExtractPlugin({
       filename: 'static/css/[name].[hash:7].css'
     })
   ],

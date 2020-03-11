@@ -2,6 +2,9 @@
 const webpack = require('webpack');
 const path = require('path')
 const CleanWebpackPlugin = require('clean-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+
+const env = process.env.NODE_ENV
 
 let webpackConfig = {
 	// 配置入口  
@@ -85,14 +88,14 @@ let webpackConfig = {
 			{
 				test: /\.css$/,
 				use: [
-					'style-loader',
+					env == 'development' ? 'style-loader' : MiniCssExtractPlugin.loader,
 					'css-loader',
 				],
 			},
 			{
 				test: /\.less$/,
 				use: [
-					'style-loader',
+					env == 'development' ? 'style-loader' : MiniCssExtractPlugin.loader,
 					'css-loader',
 					'less-loader'
 				],
@@ -100,7 +103,7 @@ let webpackConfig = {
 			{
 				test: /\.(sass|scss)$/,
 				use: [
-					'style-loader',
+					env == 'development' ? 'style-loader' : MiniCssExtractPlugin.loader,
 					'css-loader',
 					'sass-loader'
 				],
