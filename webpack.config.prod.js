@@ -41,33 +41,33 @@ let prodWebpackConfig = {
       filename: 'static/css/[name].[hash:7].css'
     })
   ],
-  optimization: {
-    splitChunks: {
-      chunks: 'all',
-      minSize: 30000,
-      minChunks: 1,
-      maxAsyncRequests: 5,
-      maxInitialRequests: 3,
-      automaticNameDelimiter: '~',
-      name: true,
-      cacheGroups: {
-        vendors: {
-          test: /[\\/]node_modules[\\/]/,
-          priority: -10
-        },
-        // default: {
-        //     minChunks: 2,
-        //     priority: -20,
-        //     reuseExistingChunk: true
-        // },
-        commons: {
-          name: 'commons',
-          chunks: 'initial',
-          minChunks: 2
-        }
-      }
-    }
-  }
+  // optimization: {
+  //   splitChunks: {
+  //     chunks: 'all',
+  //     minSize: 30000,
+  //     minChunks: 1,
+  //     maxAsyncRequests: 5,
+  //     maxInitialRequests: 3,
+  //     automaticNameDelimiter: '~',
+  //     name: true,
+  //     cacheGroups: {
+  //       // vendors: {
+  //       //   test: /[\\/]node_modules[\\/]/,
+  //       //   priority: -10
+  //       // },
+  //       // default: {
+  //       //     minChunks: 2,
+  //       //     priority: -20,
+  //       //     reuseExistingChunk: true
+  //       // },
+  //       // commons: {
+  //       //   name: 'commons',
+  //       //   chunks: 'initial',
+  //       //   minChunks: 2
+  //       // }
+  //     }
+  //   }
+  // }
 }
 
 prodWebpackConfig = utils.pushHtmlWebpackPlugins(
