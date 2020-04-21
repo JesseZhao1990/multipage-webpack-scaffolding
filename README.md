@@ -77,6 +77,37 @@ npm run build
 
 ## 部署测试环境
 
+近期有同学想通过docker部署，这里也支持一下，并补充一下文档。下面分别介绍docker和pm2 deploy
+
+## docker
+
+### docker部署思路
+
+docker部署的思路，是根据Dockerfile打docker镜像，一般是通过Jenkins自动化工具打docker镜像，然后推送到公司的镜像私服
+
+之后就可以使用镜像起容器了
+
+1. 如果是微服务架构，比如使用的是k8s来管理集群，则需要定义yaml文件，并通过kubectrl命令起pod和容器(各个公司的情况不一样，具体的详细细节最好和你们公司的运维同学聊一下)
+2. 如果不是集群的方式，则相对简单，直接拉取镜像，运行docker run -p 映射的端口：8080 镜像id  即可起一个容器
+
+Dockerfile和Nginx的配置文件已在项目的根目录，可根据各厂实际情况进行修改
+
+如需进一步的细节介绍，后续再补文档。。。
+
+
+### 在本机测试docker部署
+
+```
+
+docker build -t  test:v2  .
+docker run  -p 5000:8080 test:v2
+
+```
+访问localhost:5000观察是否能正常访问
+
+
+## pm2 deploy
+
 ### 1.配置ssh免密登录
 
 * 查看本机是否有一对秘钥？mac 到~/.ssh目录下查看，windows到 C:\Users\zhangsan（自己的用户名）\.ssh
