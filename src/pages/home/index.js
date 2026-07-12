@@ -1,4 +1,3 @@
-/* eslint-disable */
 import '../../common/css/com.less';
 import './index.less';
 import {throttle} from '../../tools/utils';
