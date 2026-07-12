@@ -1,56 +1,56 @@
 {
-  "name": "mutipages",
-  "version": "1.0.0",
-  "description": "bootstrap of mutipages",
-  "main": "index.js",
+  "name": "multipage-webpack-scaffolding",
+  "version": "2.0.0",
+  "private": true,
+  "description": "A convention-driven Webpack 5 scaffold for multi-page websites",
   "scripts": {
-    "build": "cross-env NODE_ENV=production webpack --config webpack.config.prod.js",
-    "dev": "cross-env NODE_ENV=development webpack-dev-server --hot --inline  --watch --host 0.0.0.0 --config webpack.config.dev.js"
+    "build": "webpack --config build/webpack.prod.js",
+    "dev": "webpack serve --config build/webpack.dev.js",
+    "lint": "eslint .",
+    "test": "node --test test/**/*.test.js",
+    "check": "eslint . && node --test test/**/*.test.js && webpack --config build/webpack.prod.js"
   },
+  "browserslist": [
+    "> 0.5%",
+    "last 2 versions",
+    "not dead"
+  ],
   "repository": {
     "type": "git",
-    "url": ""
+    "url": "https://github.com/JesseZhao1990/multipage-webpack-scaffolding.git"
   },
-  "author": "215696013@qq.com",
+  "author": "Jesse Zhao",
   "license": "MIT",
+  "packageManager": "pnpm@11.7.0",
   "dependencies": {
-    "@babel/polyfill": "^7.6.0",
-    "cross-env": "^7.0.2",
-    "ejs-loader": "^0.3.5",
-    "normalize.css": "^8.0.0"
+    "core-js": "^3.41.0",
+    "lodash": "^4.17.21",
+    "normalize.css": "^8.0.1"
   },
   "devDependencies": {
-    "babel-core": "^6.26.3",
-    "babel-eslint": "^8.2.3",
-    "babel-loader": "^7.1.4",
-    "babel-plugin-transform-runtime": "^6.23.0",
-    "babel-preset-env": "^1.7.0",
-    "babel-preset-stage-2": "^6.24.1",
-    "clean-webpack-plugin": "^0.1.19",
-    "copy-webpack-plugin": "^4.5.1",
-    "css-loader": "^0.28.11",
-    "eslint": "^4.19.1",
-    "eslint-config-standard": "^11.0.0",
-    "eslint-friendly-formatter": "^4.0.1",
-    "eslint-loader": "^2.0.0",
-    "eslint-plugin-html": "^4.0.3",
-    "eslint-plugin-import": "^2.11.0",
-    "eslint-plugin-node": "^6.0.1",
-    "eslint-plugin-promise": "^3.7.0",
-    "eslint-plugin-standard": "^3.1.0",
-    "file-loader": "^1.1.11",
-    "html-loader": "^0.5.5",
-    "html-webpack-plugin": "^3.2.0",
-    "html-withimg-loader": "^0.1.16",
-    "less": "^3.0.4",
-    "less-loader": "^4.1.0",
-    "mini-css-extract-plugin": "^0.9.0",
-    "style-loader": "^0.21.0",
-    "uglifyjs-webpack-plugin": "^1.2.5",
-    "url-loader": "^1.0.1",
-    "webpack": "^4.8.3",
-    "webpack-cli": "^3.1.1",
-    "webpack-dev-server": "^3.1.4",
-    "webpack-merge": "^4.2.2"
+    "@babel/core": "^7.26.10",
+    "@babel/eslint-parser": "^7.27.0",
+    "@babel/preset-env": "^7.26.9",
+    "autoprefixer": "^10.4.21",
+    "babel-loader": "^10.0.0",
+    "css-loader": "^7.1.2",
+    "css-minimizer-webpack-plugin": "^7.0.2",
+    "ejs-loader": "^0.5.0",
+    "eslint": "^9.22.0",
+    "eslint-webpack-plugin": "^5.0.0",
+    "html-loader": "^5.1.0",
+    "html-webpack-plugin": "^5.6.3",
+    "less": "^4.2.2",
+    "less-loader": "^12.2.0",
+    "mini-css-extract-plugin": "^2.9.2",
+    "postcss": "^8.5.3",
+    "postcss-loader": "^8.1.1",
+    "terser-webpack-plugin": "^5.3.14",
+    "webpack": "^5.98.0",
+    "webpack-cli": "^6.0.1",
+    "webpack-dev-server": "^5.2.0"
+  },
+  "engines": {
+    "node": ">=20.0.0"
   }
 }

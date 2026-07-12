@@ -1,179 +1,66 @@
-# 开箱即用的多页面webpack脚手架
-最近接手一个新项目，公司官网，官网为了对爬虫友好，不合适做单页面，更不大适合用react，vue这样的框架。本来觉得几个简单的页面还需要配置webpack挺麻烦，直接ES5，css，html写写就ok，可是一旦下手开始写，离开了前端的各种得心应手的工具，回到了刀耕火种的时代。痛不欲生，即使写完了，以后的迭代维护同样痛苦。 还不如创建一个脚手架，以后遇到这种官网多页面的需求的时候拿来即用，岂不美哉。
+# Multipage Webpack Scaffolding
 
-好了，背景就是这些，本脚手架适合做官网之类的多页面的应用。本脚手架已经支持使用ES6，less，模块化，热加载，eslint等功能
+一个基于 Webpack 5 的多页面官网脚手架，支持 ES modules、Less、PostCSS、资源指纹、热更新和按需 polyfill。
 
+## 开始
 
-## Build Setup
+需要 Node.js 20 或更高版本。
 
-``` bash
-# 安装依赖
-npm install
-
-# 开发的时候在本地启localhost:8080，并开始热加载
-npm run dev
-
-# production的发布时打包
-npm run build
-
+```bash
+corepack enable
+pnpm install
+pnpm dev
 ```
 
+生产构建与完整检查：
 
-## 目录结构
-
+```bash
+pnpm build
+pnpm check
 ```
 
-└─src                                      // src 文件夹
-│    ├─pages                               // 页面文件夹
-│    │  ├─about
-│    │  │      about.html
-│    │  │      about.js
-│    │  │      about.less
-│    │  │
-│    │  ├─contact
-│    │  │      contact.css
-│    │  │      contact.html
-│    │  │      contact.js
-│    │  │
-│    │  └─home
-│    │          index.html
-│    │          index.js
-│    │          index.less
-│    │
-│    └─tools                          // 工具文件夹
-│            utils.js
-│
-│  .babelrc                         // babel的配置文件
-│  .eslintignore
-│  .eslintrc.js                     // eslint的配置文件
-│  .gitignore
-│  ecosystem.config.js              // pm2 deploy的配置文件
-│  package.json
-│  page.config.js                   // 页面的配置文件
-│  README.md
-│  webpack.config.dev.js            // 开发环境的webpack配置文件
-│  webpack.config.prod.js           // 生成环境的webpack配置文件
-         
+## 页面约定
 
+每个页面是 `src/pages` 下的一个目录。构建工具会自动发现页面，无需再维护 `page.config.js`。
+
+```text
+src/pages/pricing/
+├── index.html       # 也可以是 index.ejs
+├── index.js
+└── index.less
 ```
 
-## 开发流程
+为兼容旧项目，`pricing.html + pricing.js` 也可被发现。`home` 目录输出 `index.html`，其他目录输出 `<目录名>.html`。以 `_` 开头的目录作为共享模板目录，不会生成页面。
 
-如果增加新页面，只需两步，不需要改webpack等配置文件
+## 资源与样式
 
-1. 在pages中新增一个文件夹
-2. 在page.config.js中添加这个页面的信息即可
+- JavaScript 中可以用 `@/` 指向 `src/`，例如 `import '@/common/css/com.less'`。
+- CSS/Less 中的 `url(...)` 和 HTML 中的 `<img src="...">` 会由 Webpack 处理，生成正确的带指纹路径。
+- 开发和生产均把 CSS 抽取为 `<link>` 并放入页面，避免 JavaScript 运行后才注入样式导致的首屏闪烁。
+- Autoprefixer 会处理导入的 CSS/Less。HTML 的 `style="..."` 属性不是 CSS Loader 的输入，建议改为 class 并放入 CSS/Less，这样才能获得前缀、压缩和缓存。
 
-比如
-```
-  {
-    name: 'contact',
-    html: 'contact/contact.html',
-    jsEntry: 'contact/contact.js'
-  }
+## 兼容性
 
-```
+`browserslist` 是唯一的浏览器范围配置。Babel 使用 `useBuiltIns: "usage"` 按实际使用注入 `core-js` polyfill，不需要在每个入口手动导入整包 polyfill。
 
+## 构建配置
 
-## 部署测试环境
-
-近期有同学想通过docker部署，这里也支持一下，并补充一下文档。下面分别介绍docker和pm2 deploy
-
-## docker
-
-### docker部署思路
-
-docker部署的思路，是根据Dockerfile打docker镜像，一般是通过Jenkins自动化工具打docker镜像，然后推送到公司的镜像私服
-
-之后就可以使用镜像起容器了
-
-1. 如果是微服务架构，比如使用的是k8s来管理集群，则需要定义yaml文件，并通过kubectrl命令起pod和容器(各个公司的情况不一样，具体的详细细节最好和你们公司的运维同学聊一下)
-2. 如果不是集群的方式，则相对简单，直接拉取镜像，运行docker run -p 映射的端口：8080 镜像id  即可起一个容器
-
-Dockerfile和Nginx的配置文件已在项目的根目录，可根据各厂实际情况进行修改
-
-如需进一步的细节介绍，后续再补文档。。。
-
-
-### 在本机测试docker部署
-
+```text
+build/
+├── paths.js            # 统一路径
+├── pages.js            # 页面发现与校验
+├── webpack.common.js   # loader、plugin 和输出规则
+├── webpack.dev.js      # 开发服务器
+└── webpack.prod.js     # 压缩与生产优化
 ```
 
-docker build -t  test:v2  .
-docker run  -p 5000:8080 test:v2
+HtmlWebpackPlugin 在生产环境默认压缩 HTML。如果项目确实需要保留格式，可在 `build/webpack.common.js` 中将 `minify: production` 改为 `minify: false`。
 
-```
-访问localhost:5000观察是否能正常访问
+## Docker
 
-
-## pm2 deploy
-
-### 1.配置ssh免密登录
-
-* 查看本机是否有一对秘钥？mac 到~/.ssh目录下查看，windows到 C:\Users\zhangsan（自己的用户名）\.ssh
-
-```
-ls
-
-id_rsa      id_rsa_vc      known_hosts  rhc.pub
-id_rsa.pub  id_rsa_vc.pub  rhc
-
+```bash
+docker build -t multipage-webpack .
+docker run --rm -p 5000:8080 multipage-webpack
 ```
 
-
-发现存在密钥对。若不存在，则生成一对
-
-```
-ssh-keygen -t rsa --P
-
-```
-
-* 登录远程测试机，到用户目录下的.ssh文件夹下，查看是否有authorized_keys，没有的话创建一个
-
-```
-ssh root@xxx.xx.xx.xx
-cd ~/.ssh/
-vim authorizd_keys
-
-```
-vim 打开authorized_keys之后，把你本机的公钥里的内容拷贝到远程机器的authorized_keys文件中，不要删除authorized_keys已有的公钥，在已有的内容的下面粘贴即可。然后保存文件。验证是否能免密登录了。
-
-```
-ssh root@xxx.xx.xx.xx
-
-```
-经验证发现登录成功，没要求输入密码。此时免密登录的设置完成
-
-### 2.远程发布
-
-* 确保本机已安装全局的pm2,下面是我本机的结果，已安装pm2，没安装的话，安装一下
-
-```
-npm list -g --depth=0   | grep pm2
--- pm2@2.8.0
-
-```
-没安装的话，全局安装一下pm2
-
-```
-npm install pm2 -g
-
-```
-
-* 在本项目的根目录下，运行创建环境的命令(首次跑的时候需要用，此后就不再需要了)
-
-```
-pm2 deploy ecosystem.config.js dev setup
-
-```
-
-
-* 发布命令
-
-```
-pm2 deploy ecosystem.config.js dev                // 发布dev分支到dev环境
-pm2 deploy ecosystem.config.js test                // 发布master分支到test环境
-```
-
-
-学习pm2的deploy，[详情请进入](http://pm2.keymetrics.io/docs/usage/deployment/#windows-consideration)
+访问 <http://localhost:5000>。Docker 构建使用当前工作区代码，不会在镜像内重新 clone 远程仓库。

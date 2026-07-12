@@ -1,4 +1,3 @@
-/* eslint-disable */
 module.exports = {
   /**
    * Application configuration section
